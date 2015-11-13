@@ -1,25 +1,25 @@
-package project.db.sms;
+package project.db.sms.apiservices.model;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by ritesh on 11/11/15.
  */
-public class Route {
-    public Route() { }
+public class Segment {
+    public Segment() { }
 
-    @SerializedName("route_id")
-    public int routeID;
+    @SerializedName("segment_id")
+    public int segmentID;
 
     @SerializedName("name")
     String routeName;
 
-    public int getRouteID() {
-        return routeID;
+    public int getSegmentID() {
+        return segmentID;
     }
 
-    public void setRouteID(int routeID) {
-        this.routeID = routeID;
+    public void setSegmentID(int routeID) {
+        this.segmentID = routeID;
     }
 
     public String getRouteName() {

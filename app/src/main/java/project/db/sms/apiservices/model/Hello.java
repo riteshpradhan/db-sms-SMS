@@ -1,4 +1,4 @@
-package project.db.sms;
+package project.db.sms.apiservices.model;
 
 /**
  * Created by ritesh on 11/11/15.
