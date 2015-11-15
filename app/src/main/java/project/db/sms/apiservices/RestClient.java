@@ -23,10 +23,13 @@ import retrofit.Retrofit;
  */
 public class RestClient {
 //    public static final String ENDPOINT = "http://10.0.0.6:3001/";
-//    public static final String ENDPOINT = "http://10.4.155.163:3000/";
-    private static final String ENDPOINT = "http://www.mocky.io/";
+    public static final String ENDPOINT = "http://192.168.0.21:8080/";
+//    private static final String ENDPOINT = "http://www.mocky.io/";
     private static final OkHttpClient httpClient = new OkHttpClient();
     public RestApiInterface restApiService;
+
+    /* Model */
+//    List<Station> stations = null;
 
     public void RestClient() {
         //Use single call per activity
@@ -110,8 +113,5 @@ public class RestClient {
         } else {
             Log.d("Log", "Null ssv obtained ");
         }
-
     }
-
-
 }

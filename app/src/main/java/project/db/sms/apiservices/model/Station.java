@@ -22,19 +22,19 @@ public class Station {
         this.name = name;
     }
 
-    public String getLng() {
+    public double getLng() {
         return lng;
     }
 
-    public void setLng(String lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
@@ -46,20 +46,20 @@ public class Station {
         this.location = location;
     }
 
-    public int isHub() {
+    public boolean isHub() {
         return isHub;
     }
 
-    public void setIsHub(int isHub) {
+    public void setIsHub(boolean isHub) {
         this.isHub = isHub;
     }
 
     @SerializedName("station_id")
     int stationID;
     String name;
-    String lng;
-    String lat;
+    double lng;
+    double lat;
     String location;
     @SerializedName("is_hub")
-    int isHub;
+    boolean isHub;
 }

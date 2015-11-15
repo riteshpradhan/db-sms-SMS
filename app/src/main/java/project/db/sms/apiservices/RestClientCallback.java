@@ -4,6 +4,7 @@ package project.db.sms.apiservices;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -35,6 +36,7 @@ public class RestClientCallback {
     /*  Models  */
     List<Hello> hellos = null;
     Station station = null;
+    List<Station> stations = null;
 
     public  RestClientCallback() {
         httpClient.interceptors().add(new Interceptor() {
@@ -89,11 +91,30 @@ public class RestClientCallback {
 
     public interface ResultReadyCallback {
         public void resultReady(List<Hello> hellos);
+        public void resultReadyStation(List<Station> stations);
     }
 
-}
+    public List<Station> getStationList() {
+            final Call<List<Station>> stationList = apiInterface.getStations();
+            stationList.enqueue(new Callback<List<Station>>() {
+                @Override
+                public void onResponse(Response<List<Station>> response, Retrofit retrofit) {
+                    if (response.isSuccess()) {
+                        Log.d("Logg", response.body().toString());
+                        stations = response.body();
+                        resultCallback.resultReadyStation(stations);
+                        Log.d("MainActivity", "response = " + new Gson().toJson(stations));
+//                        gMap.addMarker(new MarkerOptions().position(new LatLng(station.getLat(), station.getLng())));
+                    }
+                }
 
-
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.d("Logg", "Inside the failure of getting stations list ");
+                }
+            });
+        return stations;
+    }
 
 //    public boolean createUser(final Context ctx, User user) {
 //        Call<User> u = service.createUser(user);
@@ -117,6 +138,12 @@ public class RestClientCallback {
 //        });
 //        return success;
 //    }
+
+
+}
+
+
+
 
 
 

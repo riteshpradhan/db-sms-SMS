@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import project.db.sms.apiservices.RestClient;
 import project.db.sms.apiservices.interfaceservices.RestApiInterface;
 import project.db.sms.apiservices.model.Station;
@@ -30,7 +32,9 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
     private Marker currMarker;
     public RestClient restClient;
     public Station station;
+    public List<Station> stations;
     public RestApiInterface restApiService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
             }
 
         }
+
+        /* Test for the stations from server */
+        test_stations();
 
     }
 
@@ -84,8 +91,8 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
                     if (response.isSuccess()) {
                         Log.v("Logg", response.body().toString());
                         station = response.body();
-                        Log.d("MainActivity", "response = " + new Gson().toJson(station));
-                        gMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(station.getLng()), Double.parseDouble(station.getLat()))));
+                        Log.d("LMainActivity", "response = " + new Gson().toJson(station));
+//                        gMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(station.getLng()), Double.parseDouble(station.getLat()))));
                         Log.d("Log: ", "Add marker for lat and long");
                     }
                 }
@@ -113,6 +120,30 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
                 Log.d("LGOO: ", "why api is null or not after set ? ?  ");
             }
             restClient.requestData();
+        }
+    }
+
+    public void test_stations() {
+        Log.d("Logg", "Testing the station test");
+        if (restApiService != null) {
+            Call<List<Station>> stationListCall = restApiService.getStations();
+            stationListCall.enqueue(new Callback<List<Station>>() {
+                @Override
+                public void onResponse(Response<List<Station>> response, Retrofit retrofit) {
+                    if (response.isSuccess()) {
+                        Log.v("Logg", response.body().toString());
+                        stations = response.body();
+                        Log.d("LMainActivity", "response = " + new Gson().toJson(stations));
+                        Log.d("LOG: ", stations.get(2).getName() + ":" + stations.get(2).getLocation());
+                        Log.d("Log: ", "All stations obtained");
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.d("Log Failure", "response station = ??");
+                }
+            });
         }
     }
 }

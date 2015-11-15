@@ -23,7 +23,12 @@ public interface RestApiInterface {
 //    @GET("/sql/select{space}*{space}from{space}station{space}where{space}station_id=86")
 //    Call<Station> getStation();
 
-    @GET("/v2/564514f1110000a704c2bd76")
+//    @GET("/v2/564514f1110000a704c2bd76")
+    @GET("/api/get_station/2")
     Call<Station> getStation();
+
+    @GET("/api/get_stations")
+//    @GET("/v2/5647c7710f0000e604dace26")
+    Call<List<Station>> getStations();
 
 }
