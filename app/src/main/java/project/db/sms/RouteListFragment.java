@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -49,7 +51,15 @@ public class RouteListFragment extends Fragment {
         restClient.setRestApiService();
         restApiService = restClient.getRestApiService();
 
-        ListView list_item = new ListView(getActivity());
+        final ListView list_item = new ListView(getActivity());
+        list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // selected item
+                String selected = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
+                Toast toast=Toast.makeText(getActivity(), selected, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
         return listStation(list_item);
 
     }
