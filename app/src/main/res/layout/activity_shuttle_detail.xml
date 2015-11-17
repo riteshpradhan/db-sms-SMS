@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/Station_Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/shuttleDetailMap"
+        android:layout_marginBottom="10dp"
+        android:layout_alignStart="@+id/shuttleDetailMap" />
+
+    <fragment
+        android:id="@+id/shuttleDetailMap"
+        android:layout_height="250dp"
+        android:layout_width="340dp"
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_below="@+id/Station_Name"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shuttleID"
+        android:id="@+id/shuttleLabel"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/shuttleDetailMap"
+        android:layout_alignLeft="@+id/ShuttleIDData"
+        android:layout_alignStart="@+id/ShuttleIDData" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/ShuttleIDData"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/shuttleLabel"
+        android:layout_alignLeft="@+id/shuttleDetailMap"
+        android:layout_alignStart="@+id/shuttleDetailMap" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/routeID"
+        android:id="@+id/RouteLabel"
+        android:layout_below="@+id/ShuttleIDData"
+        android:layout_alignLeft="@+id/ShuttleIDData"
+        android:layout_alignStart="@+id/ShuttleIDData"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/routeIDData"
+        android:layout_below="@+id/RouteLabel"
+        android:layout_alignLeft="@+id/RouteLabel"
+        android:layout_alignStart="@+id/RouteLabel"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arriving in:"
+        android:id="@+id/arrivalTimeLabel"
+        android:layout_below="@+id/routeIDData"
+        android:layout_alignLeft="@+id/routeIDData"
+        android:layout_alignStart="@+id/routeIDData"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/arrivalTimeData"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/arrivalTimeLabel"
+        android:layout_alignLeft="@+id/arrivalTimeLabel"
+        android:layout_alignStart="@+id/arrivalTimeLabel" />
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package project.db.sms;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -37,11 +38,15 @@ public class RouteListFragment extends Fragment {
     public RestClient restClient;
     public List<Station> stations;
     public RestApiInterface restApiService;
+    private String stationName;
+    private String shuttleID;
+    private String route;
+    private String arrivalTime;
+    private String numSeats;
 
     public RouteListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,9 +60,18 @@ public class RouteListFragment extends Fragment {
         list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // selected item
-                String selected = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
-                Toast toast=Toast.makeText(getActivity(), selected, Toast.LENGTH_SHORT);
-                toast.show();
+                stationName = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
+//              Toast toast=Toast.makeText(getActivity(), selected, Toast.LENGTH_SHORT);
+//              toast.show();
+                Intent intent = new Intent(getActivity().getApplicationContext(),ShuttleDetailActivity.class);
+                intent.putExtra("stationName", stationName);
+//              TODO: Add all other parameters (shuttleID, Route, etc)
+//                intent.putExtra("shuttleID", shuttleID);
+//                intent.putExtra("route", route);
+//                intent.putExtra("arrivalTime", arrivalTime);
+//                intent.putExtra("numSeats", numSeats);
+
+                startActivity(intent);
             }
         });
         return listStation(list_item);
@@ -76,7 +90,6 @@ public class RouteListFragment extends Fragment {
 
                     RouteItemAdapter adapter = new RouteItemAdapter(getActivity(), (ArrayList)stations);
                     list_item.setAdapter(adapter);
-
                 }
             }
 

@@ -11,6 +11,11 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,7 +40,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-public class HomeActivity extends AppCompatActivity implements InputFragment.InputSectionListener{
+public class HomeActivity extends AppCompatActivity {
 
     private boolean isMapReady;
     private GoogleMap gMap;
@@ -47,7 +52,10 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng currLocation;
-
+    private MarkerOptions markerOptions;
+    private static List<String> stationNameList;
+    private  AutoCompleteTextView originInput;
+    private  AutoCompleteTextView destInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +72,6 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
             //CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(34.718166, -86.661352), 8);
             //gMap.addMarker(new MarkerOptions().position(new LatLng(30.718166, -86.661352)).title("Default"));
             //gMap.moveCamera(update);
-
             try {
                 showCurrentLocation();
                 showStations();
@@ -72,6 +79,15 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
             } catch (Exception e) {
                 Log.d("Log", "Caught with exception" + e.toString());
             }
+
+            // Input fields autocomplete. Move this somewhere else later
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_dropdown_item_1line, stationNameList);
+            originInput = (AutoCompleteTextView) findViewById(R.id.originInput);
+            destInput = (AutoCompleteTextView) findViewById(R.id.destinationInput);
+            originInput.setAdapter(adapter);
+            originInput.setThreshold(1);
+            destInput.setAdapter(adapter);
+            destInput.setThreshold(1);
         }
     }
 
@@ -83,12 +99,10 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
         return (gMap != null);
     }
 
-    @Override
     public void getRoute(String origin, String Destination) {
 
     }
 
-    @Override
     public void resetFields() {
 
     }
@@ -193,6 +207,7 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
     public void showStations() {
         if (restApiService != null) {
             //final List<LatLng> positions = new ArrayList<LatLng>();
+            stationNameList = new ArrayList<String>();
             Call<List<Station>> stationListCall = restApiService.getStations();
             stationListCall.enqueue(new Callback<List<Station>>() {
                 @Override
@@ -208,9 +223,13 @@ public class HomeActivity extends AppCompatActivity implements InputFragment.Inp
                                     .title(stations.get(i).getName())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                             //positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
-
+                            stationNameList.add(stations.get(i).getName());
+                            int size = stationNameList.size();
+                            Log.d("Log Failure", "response station = ??");
                         }
                         //gMap.addPolyline(new PolylineOptions().addAll(positions));
+                        int size = stationNameList.size();
+
                     }
                 }
 
