@@ -27,7 +27,7 @@ public interface RestApiInterface {
     @GET("/api/get_station/{station_id}")
     Call<Station> getStation(@Path("station_id") int station_id);
 
-    @GET("/api/get_station/{route_id}")
+    @GET("/api/get_stations/{route_id}")
     Call<List<Station>> getStationRID(@Path("route_id") int route_id);
 
 

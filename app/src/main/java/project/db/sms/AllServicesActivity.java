@@ -89,7 +89,8 @@ public class AllServicesActivity extends AppCompatActivity {
         });
         RouteItemAdapter routeItemAdapter = new RouteItemAdapter(this, (ArrayList) details);
         list_item.setAdapter(routeItemAdapter);
-        //list_item.setBackgroundColor(0xFF00FF00);
+        list_item.setBackgroundColor(0xFF99CCFF);
+        list_item.animate();
         route_list_layout.addView(list_item);
     }
 

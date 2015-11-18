@@ -77,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
         restClient.setRestApiService();
         restApiService = restClient.getRestApiService();
 
+        showStations();
+
         isMapReady = initMap();
         if (isMapReady){
             // Camera position needs to be initialized here
@@ -87,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 showCurrentLocation();
                 showStations();
-//                showShuttleListView();
+                showShuttleListView();
             } catch (Exception e) {
                 Log.d("Log", "Caught with exception" + e.toString());
             }
@@ -130,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 // if sour and des
-//
+              showStations();
             }
         });
 
@@ -217,7 +219,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getCurrentPosition() {
-        locationManager.requestLocationUpdates("gps", 60000, 0, locationListener);
+        locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
     }
 
     public void showShuttleListView() {
@@ -264,6 +266,7 @@ public class HomeActivity extends AppCompatActivity {
     // Commented lines define steps to plot lines between stations
     // This procedure will be applied when plotting routes in a separate method
     public void showStations() {
+        Log.d("LOG: ", "IN show stations ");
         if (restApiService != null) {
             //final List<LatLng> positions = new ArrayList<LatLng>();
             stationNameList = new ArrayList<String>();
@@ -275,9 +278,10 @@ public class HomeActivity extends AppCompatActivity {
                 public void onResponse(Response<List<Station>> response, Retrofit retrofit) {
                     if (response.isSuccess()) {
                         stations = response.body();
+                        Log.d("LMainActivity", "response = " + new Gson().toJson(stations));
                         double distance = 0;
                         distance = stations.get(1).getLat();
-
+                        Log.d("LOG: ", "after response  ");
                         for (int i = 0; i < stations.size(); i++) {
                             gMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
@@ -287,14 +291,14 @@ public class HomeActivity extends AppCompatActivity {
                             stationNameList.add(stations.get(i).getLocation());
                             hashMap.put(stations.get(i).getLocation(), stations.get(i).getStationID());
                             int size = stationNameList.size();
-                            Log.d("Log Failure", "response station = ??");
+                            Log.d("Log Failure", "response stationddd = ??");
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.d("Log Failure", "response station = ??");
+                    Log.d("Log Failure", "response station or no show in here = ??");
                 }
             });
         }
@@ -349,6 +353,7 @@ public class HomeActivity extends AppCompatActivity {
 
         RouteItemAdapter routeItemAdapter = new RouteItemAdapter(this, (ArrayList) details);
         list_item.setAdapter(routeItemAdapter);
+        list_item.setBackgroundColor(0xFF99CCFF);
         route_list_layout.addView(list_item);
     }
 
@@ -384,7 +389,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.d("Log Failure", "response station = ??");
+                    Log.d("Log Failure", "response station in orig diesti = ??");
                 }
             });
 

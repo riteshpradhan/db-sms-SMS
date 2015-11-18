@@ -77,7 +77,7 @@ public class AllRoutesActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Log.d("Log Failure", "response station = ??");
+                    Log.d("Log Failure", "response sssstation = ??");
                 }
             });
 

@@ -46,13 +46,13 @@ public class Station {
         this.location = location;
     }
 
-    public boolean isHub() {
-        return isHub;
-    }
-
-    public void setIsHub(boolean isHub) {
-        this.isHub = isHub;
-    }
+//    public boolean isHub() {
+//        return isHub;
+//    }
+//
+//    public void setIsHub(boolean isHub) {
+//        this.isHub = isHub;
+//    }
 
     @SerializedName("station_id")
     int stationID;
@@ -60,6 +60,6 @@ public class Station {
     double lng;
     double lat;
     String location;
-    @SerializedName("is_hub")
-    boolean isHub;
+//    @SerializedName("is_hub")
+//    int isHub;
 }
