@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         restClient.setRestApiService();
         restApiService = restClient.getRestApiService();
 
-        showStations();
+
 
         isMapReady = initMap();
         if (isMapReady){
@@ -120,7 +120,7 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (destinationText != null ) {
                     if (originText != null) {
                         // for map
-                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+//                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
 
                         // soruc and destination for listing
                         stationRouteShuttle((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
@@ -270,7 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         if (restApiService != null) {
             //final List<LatLng> positions = new ArrayList<LatLng>();
             stationNameList = new ArrayList<String>();
-            hashMap = new HashMap();
+//            hashMap = new HashMap();
 
             Call<List<Station>> stationListCall = restApiService.getStations();
             stationListCall.enqueue(new Callback<List<Station>>() {
@@ -286,10 +286,11 @@ public class HomeActivity extends AppCompatActivity {
                             gMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
                                     .title(stations.get(i).getName())
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                            );
                             //positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
                             stationNameList.add(stations.get(i).getLocation());
-                            hashMap.put(stations.get(i).getLocation(), stations.get(i).getStationID());
+//                            hashMap.put(stations.get(i).getLocation(), stations.get(i).getStationID());
                             int size = stationNameList.size();
                             Log.d("Log Failure", "response stationddd = ??");
                         }
