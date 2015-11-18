@@ -30,6 +30,17 @@
             android:label="@string/title_activity_shuttle_detail"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".AllServicesActivity"
+            android:label="@string/title_activity_all_services"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.db.sms.HomeActivity" />
+        </activity>
+        <activity android:name=".AllRoutesActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.location.LocationListener;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +35,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import project.db.sms.adapter.RouteItemAdapter;
@@ -62,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     private static List<String> stationNameList;
     private  AutoCompleteTextView originInput;
     private  AutoCompleteTextView destInput;
+    private static HashMap hashMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             try {
                 showCurrentLocation();
                 showStations();
-                showShuttleListView();
+//                showShuttleListView();
             } catch (Exception e) {
                 Log.d("Log", "Caught with exception" + e.toString());
             }
@@ -96,6 +100,50 @@ public class HomeActivity extends AppCompatActivity {
             destInput.setThreshold(1);
         }
         stationRouteShuttle();
+
+        //buttons intents
+        Button searchButton = (Button) findViewById(R.id.searchButton);
+        Button allServicesButton = (Button) findViewById(R.id.btnAllServices);
+        Button allRoutesButton = (Button) findViewById(R.id.btnAllRoutes);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AutoCompleteTextView originText = (AutoCompleteTextView) findViewById(R.id.originInput);
+                AutoCompleteTextView destinationText = (AutoCompleteTextView) findViewById(R.id.destinationInput);
+                if (originText == null && destinationText == null) {
+
+                } else if (destinationText != null ) {
+                    if (originText != null) {
+                        // soruc and destination
+                        stationRouteShuttle((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+                    } else {
+                        //nearest and destination
+                        stationRouteShuttle( 4, (int) hashMap.get(destinationText.getText().toString()));
+                    }
+                }
+
+                // if sour and des
+//
+            }
+        });
+
+        allServicesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent allServicesIntent = new Intent(getApplicationContext(), AllServicesActivity.class);
+                startActivity(allServicesIntent);
+            }
+        });
+
+        allRoutesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent allRoutesIntent = new Intent(getApplicationContext(), AllRoutesActivity.class);
+                startActivity(allRoutesIntent);
+            }
+        });
+
     }
 
     private boolean initMap(){
@@ -216,6 +264,8 @@ public class HomeActivity extends AppCompatActivity {
         if (restApiService != null) {
             //final List<LatLng> positions = new ArrayList<LatLng>();
             stationNameList = new ArrayList<String>();
+            hashMap = new HashMap();
+
             Call<List<Station>> stationListCall = restApiService.getStations();
             stationListCall.enqueue(new Callback<List<Station>>() {
                 @Override
@@ -232,6 +282,7 @@ public class HomeActivity extends AppCompatActivity {
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                             //positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
                             stationNameList.add(stations.get(i).getName());
+                            hashMap.put(stations.get(i).getName(), stations.get(i).getStationID());
                             int size = stationNameList.size();
                             Log.d("Log Failure", "response station = ??");
                         }
@@ -258,6 +309,7 @@ public class HomeActivity extends AppCompatActivity {
             shuttleStationDetailListCall = restApiService.getDetail(args[0]);
         } else {
             shuttleStationDetailListCall = restApiService.getDetail(args[0], args[1]);
+            Log.d("LOGD: ", "Double stations");
         }
 
         shuttleStationDetailListCall.enqueue(new Callback<List<StationRouteShuttleTime>>() {
@@ -276,7 +328,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void showInList(List<StationRouteShuttleTime> details) {
+    public void showInList(final List<StationRouteShuttleTime> details) {
         LinearLayout route_list_layout = (LinearLayout) findViewById(R.id.route_list_layout);
         ListView list_item = new ListView(this);
         list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -285,6 +337,16 @@ public class HomeActivity extends AppCompatActivity {
                 String stationName = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
                 Toast toast = Toast.makeText(getApplicationContext(), stationName, Toast.LENGTH_SHORT);
                 toast.show();
+
+                Intent intent = new Intent(getApplicationContext(), ShuttleDetailActivity.class);
+                intent.putExtra("stationName", stationName);
+                intent.putExtra("shuttleRegNo", details.get(position).getShuttleRegNo());
+                intent.putExtra("routeName", details.get(position).getRouteName());
+                intent.putExtra("routeID", details.get(position).getRouteID());
+                intent.putExtra("arrivalTime", details.get(position).getArrivalTime());
+                startActivity(intent);
+
+
             }
         });
 
@@ -292,7 +354,6 @@ public class HomeActivity extends AppCompatActivity {
         list_item.setAdapter(routeItemAdapter);
         list_item.setBackgroundColor(0xFF00FF00);
         route_list_layout.addView(list_item);
-        Log.d("LFL", 5);
     }
 
 }

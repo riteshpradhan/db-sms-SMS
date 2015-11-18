@@ -7,4 +7,7 @@
     <string name="title_activity_shuttle_detail">ShuttleDetailActivity</string>
     <string name="shuttleID">Shuttle ID:</string>
     <string name="routeID">Route:</string>
+    <string name="allServicesButton">All Services</string>
+    <string name="allRoutesButton">All Routes</string>
+    <string name="title_activity_all_services">AllServicesActivity</string>
 </resources>

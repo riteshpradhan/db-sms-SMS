@@ -4,6 +4,7 @@ import java.util.List;
 
 import project.db.sms.apiservices.model.Hello;
 import project.db.sms.apiservices.model.Route;
+import project.db.sms.apiservices.model.RouteWithStation;
 import project.db.sms.apiservices.model.Segment;
 import project.db.sms.apiservices.model.Station;
 import project.db.sms.apiservices.model.StationRouteShuttleTime;
@@ -26,6 +27,11 @@ public interface RestApiInterface {
     @GET("/api/get_station/{station_id}")
     Call<Station> getStation(@Path("station_id") int station_id);
 
+    @GET("/api/get_station/{route_id}")
+    Call<List<Station>> getStationRID(@Path("route_id") int route_id);
+
+
+
 
     @GET("/api/get_details")
     Call<List<StationRouteShuttleTime>> getDetails();
@@ -43,8 +49,8 @@ public interface RestApiInterface {
     Call<Route> getRoute(@Path("route_id") int route_id);
 
     @GET("/api/get_routes_stations")
-    Call<Route> getRoutesStations();
+    Call<List<RouteWithStation>> getRoutesStations();
 
     @GET("/api/get_route_stations/{route_id}")
-    Call<Route> getRouteStations(@Path("route_id") int route_id);
+    Call<RouteWithStation> getRouteStations(@Path("route_id") int route_id);
 }
