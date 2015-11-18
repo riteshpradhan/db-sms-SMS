@@ -30,21 +30,7 @@ public class Shuttle {
         this.noSeats = noSeats;
     }
 
-    public int getFromHubID() {
-        return fromHubID;
-    }
 
-    public void setFromHubID(int fromHubID) {
-        this.fromHubID = fromHubID;
-    }
-
-    public int getToHubID() {
-        return toHubID;
-    }
-
-    public void setToHubID(int toHubID) {
-        this.toHubID = toHubID;
-    }
 
     @SerializedName("shuttle_id")
     int shuttleID;
@@ -52,8 +38,5 @@ public class Shuttle {
     String regNo;
     @SerializedName("no_seats")
     int noSeats;
-    @SerializedName("from_hub_id")
-    int fromHubID;
-    @SerializedName("to_hub_id")
-    int toHubID;
+
 }

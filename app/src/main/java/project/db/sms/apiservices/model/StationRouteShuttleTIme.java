@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by ritesh on 11/11/15.
  */
-public class StationRouteShuttleTIme {
+public class StationRouteShuttleTime {
     public int getRouteID() {
         return routeID;
     }
@@ -46,6 +46,38 @@ public class StationRouteShuttleTIme {
         this.arrivalTime = arrivalTime;
     }
 
+    public String getShuttleRegNo() {
+        return shuttleRegNo;
+    }
+
+    public void setShuttleRegNo(String shuttleRegNo) {
+        this.shuttleRegNo = shuttleRegNo;
+    }
+
+    public int getStationID() {
+        return stationID;
+    }
+
+    public void setStationID(int stationID) {
+        this.stationID = stationID;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @SerializedName("route_id")
     int routeID;
     @SerializedName("shuttle_id")
@@ -56,4 +88,9 @@ public class StationRouteShuttleTIme {
     String shuttleRegNo;
     @SerializedName("arrival_time")
     int arrivalTime;
+    @SerializedName("station_id")
+    int stationID;
+    @SerializedName("station_name")
+    String stationName;
+    String location;
 }

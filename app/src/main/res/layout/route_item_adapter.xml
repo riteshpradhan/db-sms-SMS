@@ -15,6 +15,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="StationLocation" />
+    <TextView
+        android:id="@+id/arrival_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ArrivalTime" />
+    <TextView
+        android:id="@+id/route_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RouteName" />
+    <TextView
+        android:id="@+id/shuttle_reg_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ShuttleRegNo" />
 
 
 </LinearLayout>

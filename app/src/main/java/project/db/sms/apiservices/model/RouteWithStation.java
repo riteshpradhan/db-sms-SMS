@@ -14,6 +14,18 @@ public class RouteWithStation {
     @SerializedName("route_id")
     int routeID;
 
+    @SerializedName("hue_color")
+    int hueColor;
+
+
+    public int getHueColor() {
+        return hueColor;
+    }
+
+    public void setHueColor(int hueColor) {
+        this.hueColor = hueColor;
+    }
+
     List<Station> stations = new ArrayList<Station>();
 
     public List<Station> getStations() {

@@ -3,10 +3,13 @@ package project.db.sms.apiservices.interfaceservices;
 import java.util.List;
 
 import project.db.sms.apiservices.model.Hello;
+import project.db.sms.apiservices.model.Route;
 import project.db.sms.apiservices.model.Segment;
 import project.db.sms.apiservices.model.Station;
+import project.db.sms.apiservices.model.StationRouteShuttleTime;
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Path;
 
 /**
  * Created by ritesh on 11/11/15.
@@ -16,19 +19,32 @@ public interface RestApiInterface {
     @GET("v2/5644dce511000047407fdbe9")
     Call<List<Hello>> getHelloList();
 
-    @GET("api/sql/select{space}*{space}from{space}routes")
-    Call<List<Segment>> getRoutes();
-
-//        @GET("api/sql/select{space}*{space}from{space}station{space}where{space}station_id=86")
-//    @GET("/sql/select{space}*{space}from{space}station{space}where{space}station_id=86")
-//    Call<Station> getStation();
-
-//    @GET("/v2/564514f1110000a704c2bd76")
-    @GET("/api/get_station/2")
-    Call<Station> getStation();
 
     @GET("/api/get_stations")
-//    @GET("/v2/5647c7710f0000e604dace26")
     Call<List<Station>> getStations();
 
+    @GET("/api/get_station/{station_id}")
+    Call<Station> getStation(@Path("station_id") int station_id);
+
+
+    @GET("/api/get_details")
+    Call<List<StationRouteShuttleTime>> getDetails();
+
+    @GET("/api/get_detail/{nearest_station}")
+    Call<List<StationRouteShuttleTime>> getDetail(@Path("nearest_station") int nearest_station);
+
+    @GET("/api/get_detail/{source}/{destination}")
+    Call<List<StationRouteShuttleTime>> getDetail(@Path("source") int source, @Path("destination") int destination);
+
+    @GET("/api/get_routes")
+    Call<List<Route>> getRoutes();
+
+    @GET("/api/get_route/{route_id}")
+    Call<Route> getRoute(@Path("route_id") int route_id);
+
+    @GET("/api/get_routes_stations")
+    Call<Route> getRoutesStations();
+
+    @GET("/api/get_route_stations/{route_id}")
+    Call<Route> getRouteStations(@Path("route_id") int route_id);
 }

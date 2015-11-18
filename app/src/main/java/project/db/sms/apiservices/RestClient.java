@@ -23,7 +23,7 @@ import retrofit.Retrofit;
  */
 public class RestClient {
 //    public static final String ENDPOINT = "http://10.0.0.6:3001/";
-    public static final String ENDPOINT = "http://192.168.0.21:8080/";
+    public static final String ENDPOINT = "http://192.168.1.8:3000/";
 //    private static final String ENDPOINT = "http://www.mocky.io/";
     private static final OkHttpClient httpClient = new OkHttpClient();
     public RestApiInterface restApiService;
@@ -93,7 +93,7 @@ public class RestClient {
 
     public void showStation() {
         if (this.getRestApiService() != null) {
-            Call<Station> listCall = this.getRestApiService().getStation();
+            Call<Station> listCall = this.getRestApiService().getStation(2);
             listCall.enqueue(new Callback<Station>() {
                 @Override
                 public void onResponse(Response<Station> response, Retrofit retrofit) {

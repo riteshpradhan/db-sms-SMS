@@ -12,10 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,9 +35,11 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import project.db.sms.adapter.RouteItemAdapter;
 import project.db.sms.apiservices.RestClient;
 import project.db.sms.apiservices.interfaceservices.RestApiInterface;
 import project.db.sms.apiservices.model.Station;
+import project.db.sms.apiservices.model.StationRouteShuttleTime;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -89,6 +95,7 @@ public class HomeActivity extends AppCompatActivity {
             destInput.setAdapter(adapter);
             destInput.setThreshold(1);
         }
+        stationRouteShuttle();
     }
 
     private boolean initMap(){
@@ -164,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
     public void showShuttleListView() {
         Log.d("Logg", "so in shuttle view ");
         if (restApiService != null) {
-            Call<Station> listCall = restApiService.getStation();
+            Call<Station> listCall = restApiService.getStation(2);
             listCall.enqueue(new Callback<Station>() {
                 @Override
                 public void onResponse(Response<Station> response, Retrofit retrofit) {
@@ -176,6 +183,7 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("Log: ", "Add marker for lat and long");
                     }
                 }
+
                 @Override
                 public void onFailure(Throwable throwable) {
                     Log.d("Log Failure", "response station = ??");
@@ -217,7 +225,7 @@ public class HomeActivity extends AppCompatActivity {
                         double distance = 0;
                         distance = stations.get(1).getLat();
 
-                        for (int i = 0; i < stations.size(); i++){
+                        for (int i = 0; i < stations.size(); i++) {
                             gMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
                                     .title(stations.get(i).getName())
@@ -241,4 +249,50 @@ public class HomeActivity extends AppCompatActivity {
 
         }
     }
+
+    public void stationRouteShuttle(int... args) {
+        Call<List<StationRouteShuttleTime>> shuttleStationDetailListCall;
+        if (args.length == 0) {
+            shuttleStationDetailListCall = restApiService.getDetails();
+        } else if (args.length == 1){
+            shuttleStationDetailListCall = restApiService.getDetail(args[0]);
+        } else {
+            shuttleStationDetailListCall = restApiService.getDetail(args[0], args[1]);
+        }
+
+        shuttleStationDetailListCall.enqueue(new Callback<List<StationRouteShuttleTime>>() {
+            @Override
+            public void onResponse(Response<List<StationRouteShuttleTime>> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+                    List<StationRouteShuttleTime> details = response.body();
+                    showInList(details);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.d("Log Failure", "response mmmstation = ??");
+            }
+        });
+    }
+
+    public void showInList(List<StationRouteShuttleTime> details) {
+        LinearLayout route_list_layout = (LinearLayout) findViewById(R.id.route_list_layout);
+        ListView list_item = new ListView(this);
+        list_item.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // selected item
+                String stationName = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
+                Toast toast = Toast.makeText(getApplicationContext(), stationName, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        RouteItemAdapter routeItemAdapter = new RouteItemAdapter(this, (ArrayList) details);
+        list_item.setAdapter(routeItemAdapter);
+        list_item.setBackgroundColor(0xFF00FF00);
+        route_list_layout.addView(list_item);
+        Log.d("LFL", 5);
+    }
+
 }

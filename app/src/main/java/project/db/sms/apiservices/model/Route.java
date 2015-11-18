@@ -22,8 +22,21 @@ public class Route {
         this.routeName = routeName;
     }
 
+
+    public int getHueColor() {
+        return hueColor;
+    }
+
+    public void setHueColor(int hueColor) {
+        this.hueColor = hueColor;
+    }
+
+
+    @SerializedName("hue_color")
+    int hueColor;
     @SerializedName("route_name")
     String routeName;
     @SerializedName("route_id")
     int routeID;
+
 }
