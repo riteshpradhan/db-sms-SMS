@@ -38,11 +38,11 @@ public class StationRouteShuttleTime {
         this.shuttleRegNo = shuttleRegNum;
     }
 
-    public int getArrivalTime() {
+    public String getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(int arrivalTime) {
+    public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -87,7 +87,7 @@ public class StationRouteShuttleTime {
     @SerializedName("shuttle_reg_no")
     String shuttleRegNo;
     @SerializedName("arrival_time")
-    int arrivalTime;
+    String arrivalTime;
     @SerializedName("station_id")
     int stationID;
     @SerializedName("station_name")

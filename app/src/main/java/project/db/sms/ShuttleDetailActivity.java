@@ -35,7 +35,7 @@ public class ShuttleDetailActivity extends Activity {
     private GoogleMap mMap;
     private String stationName;
     private String shuttleRegNo;
-    private int arrivalTime;
+    private String arrivalTime;
     private String routeName;
     private int routeID;
     public RestApiInterface restApiService;
@@ -56,7 +56,7 @@ public class ShuttleDetailActivity extends Activity {
 
         stationName = getIntent().getStringExtra("stationName");
         shuttleRegNo = getIntent().getStringExtra("shuttleRegNo");
-        arrivalTime = getIntent().getIntExtra("arrivalTime", 0);
+        arrivalTime = getIntent().getStringExtra("arrivalTime");
         routeName = getIntent().getStringExtra("routeName");
         routeID = getIntent().getIntExtra("routeID", 0);
 
@@ -70,7 +70,7 @@ public class ShuttleDetailActivity extends Activity {
         TextView shuttleLabel = (TextView) findViewById(R.id.ShuttleIDData);
         shuttleLabel.setText(shuttleRegNo);
         TextView arrivalTimeLabel = (TextView) findViewById(R.id.arrivalTimeData);
-        arrivalTimeLabel.setText(String.valueOf(arrivalTime) + " minutes");
+        arrivalTimeLabel.setText(arrivalTime);
         TextView routeIDLabel = (TextView) findViewById(R.id.routeIDData);
         routeIDLabel.setText(routeName);
 

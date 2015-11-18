@@ -41,12 +41,14 @@ import java.util.List;
 import project.db.sms.adapter.RouteItemAdapter;
 import project.db.sms.apiservices.RestClient;
 import project.db.sms.apiservices.interfaceservices.RestApiInterface;
+import project.db.sms.apiservices.model.RouteWithStation;
 import project.db.sms.apiservices.model.Station;
 import project.db.sms.apiservices.model.StationRouteShuttleTime;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import retrofit.http.Path;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -115,11 +117,15 @@ public class HomeActivity extends AppCompatActivity {
 
                 } else if (destinationText != null ) {
                     if (originText != null) {
-                        // soruc and destination
+                        // for map
+                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+
+                        // soruc and destination for listing
                         stationRouteShuttle((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
                     } else {
+//                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
                         //nearest and destination
-                        stationRouteShuttle( 4, (int) hashMap.get(destinationText.getText().toString()));
+//                        stationRouteShuttle( 4, (int) hashMap.get(destinationText.getText().toString()));
                     }
                 }
 
@@ -278,8 +284,8 @@ public class HomeActivity extends AppCompatActivity {
                                     .title(stations.get(i).getName())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                             //positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
-                            stationNameList.add(stations.get(i).getName());
-                            hashMap.put(stations.get(i).getName(), stations.get(i).getStationID());
+                            stationNameList.add(stations.get(i).getLocation());
+                            hashMap.put(stations.get(i).getLocation(), stations.get(i).getStationID());
                             int size = stationNameList.size();
                             Log.d("Log Failure", "response station = ??");
                         }
@@ -316,7 +322,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.d("Log Failure", "response mmmstation = ??");
+                Log.d("Log Failure", "response mmmddddstation = ??");
             }
         });
     }
@@ -346,4 +352,42 @@ public class HomeActivity extends AppCompatActivity {
         route_list_layout.addView(list_item);
     }
 
+    public void plotOrigDestRoute(int originId, int destinationID) {
+        if (restApiService != null) {
+            final List<LatLng> positions = new ArrayList<LatLng>();
+            Call<List<RouteWithStation>> stationListCall = restApiService.getRoutesStations(originId, destinationID);
+            stationListCall.enqueue(new Callback<List<RouteWithStation>>() {
+
+                @Override
+                public void onResponse(Response<List<RouteWithStation>> response, Retrofit retrofit) {
+                    if (response.isSuccess()) {
+                        gMap.clear();
+                        List<RouteWithStation> routesStations = response.body();
+
+                        for (int r = 0; r < routesStations.size(); r++) {
+                            for (int i = 0; i < routesStations.get(r).getStations().size(); i++) {
+                                gMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()))
+                                        .title(routesStations.get(r).getStations().get(i).getName())
+                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
+                                positions.add(i, new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()));
+
+                            }
+                            gMap.addPolyline(new PolylineOptions().addAll(positions).color(routesStations.get(r).getHueColor()));
+                        }
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(routesStations.get(0).getStations().get(0).getLat()
+                                        , routesStations.get(0).getStations().get(0).getLng()), 10);
+                        gMap.moveCamera(update);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.d("Log Failure", "response station = ??");
+                }
+            });
+
+        }
+    }
 }

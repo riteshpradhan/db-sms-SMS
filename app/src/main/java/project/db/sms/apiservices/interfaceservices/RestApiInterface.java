@@ -48,9 +48,15 @@ public interface RestApiInterface {
     @GET("/api/get_route/{route_id}")
     Call<Route> getRoute(@Path("route_id") int route_id);
 
+
     @GET("/api/get_routes_stations")
     Call<List<RouteWithStation>> getRoutesStations();
 
+
     @GET("/api/get_route_stations/{route_id}")
     Call<RouteWithStation> getRouteStations(@Path("route_id") int route_id);
+
+    @GET("/api/get_routes_stations/{source_id}/{destination_id}")
+    Call<List<RouteWithStation>> getRoutesStations(@Path("source_id") int source_id, @Path("destination_id") int destination_id);
+
 }
