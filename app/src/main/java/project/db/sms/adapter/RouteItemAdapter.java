@@ -54,6 +54,11 @@ public class RouteItemAdapter extends ArrayAdapter<StationRouteShuttleTime> {
         // Populate the data into the template view using the data object
         viewHolder.stationNameTextView.setText(stationRouteShuttleTime.getStationName());
         viewHolder.stationLocationTextView.setText(stationRouteShuttleTime.getLocation());
+        viewHolder.arrivalTimeTextView.setText(String.valueOf(stationRouteShuttleTime.getArrivalTime()));
+        viewHolder.routeNameTextView.setText(String.valueOf(stationRouteShuttleTime.getRouteName()));
+        viewHolder.shuttleRegNoTextView.setText(String.valueOf(stationRouteShuttleTime.getShuttleRegNo()));
+
+
         // Return the completed view to render on screen
         return convertView;
     }

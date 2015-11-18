@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -66,7 +68,10 @@ public class AllRoutesActivity extends AppCompatActivity {
                             }
                             mMap.addPolyline(new PolylineOptions().addAll(positions).color(routesStations.get(r).getHueColor()));
                         }
-
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(routesStations.get(0).getStations().get(0).getLat()
+                                        , routesStations.get(0).getStations().get(0).getLng()), 10);
+                        mMap.moveCamera(update);
                     }
                 }
 

@@ -208,12 +208,10 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             getCurrentPosition();
         }
-
-
     }
 
     private void getCurrentPosition() {
-        locationManager.requestLocationUpdates("gps", 0, 0, locationListener);
+        locationManager.requestLocationUpdates("gps", 60000, 0, locationListener);
     }
 
     public void showShuttleListView() {
@@ -240,7 +238,6 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             Log.d("Log", "Null ssv obtained ");
         }
-
     }
 
     public void requestRestClient() {
@@ -286,9 +283,6 @@ public class HomeActivity extends AppCompatActivity {
                             int size = stationNameList.size();
                             Log.d("Log Failure", "response station = ??");
                         }
-                        //gMap.addPolyline(new PolylineOptions().addAll(positions));
-                        int size = stationNameList.size();
-
                     }
                 }
 
@@ -297,7 +291,6 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d("Log Failure", "response station = ??");
                 }
             });
-
         }
     }
 
@@ -335,9 +328,9 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // selected item
                 String stationName = ((TextView) view.findViewById(R.id.station_name)).getText().toString();
-                Toast toast = Toast.makeText(getApplicationContext(), stationName, Toast.LENGTH_SHORT);
-                toast.show();
-
+                //Toast toast = Toast.makeText(getApplicationContext(), stationName, Toast.LENGTH_SHORT);
+                //toast.show();
+                Log.d("Log Failure ", "response mmmstation = ??");
                 Intent intent = new Intent(getApplicationContext(), ShuttleDetailActivity.class);
                 intent.putExtra("stationName", stationName);
                 intent.putExtra("shuttleRegNo", details.get(position).getShuttleRegNo());
@@ -345,14 +338,11 @@ public class HomeActivity extends AppCompatActivity {
                 intent.putExtra("routeID", details.get(position).getRouteID());
                 intent.putExtra("arrivalTime", details.get(position).getArrivalTime());
                 startActivity(intent);
-
-
             }
         });
 
         RouteItemAdapter routeItemAdapter = new RouteItemAdapter(this, (ArrayList) details);
         list_item.setAdapter(routeItemAdapter);
-        list_item.setBackgroundColor(0xFF00FF00);
         route_list_layout.addView(list_item);
     }
 

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -86,8 +88,6 @@ public class ShuttleDetailActivity extends Activity {
                 public void onResponse(Response<List<Station>> response, Retrofit retrofit) {
                     if (response.isSuccess()) {
                         List<Station> stations = response.body();
-                        double distance = 0;
-                        distance = stations.get(1).getLat();
 
                         for (int i = 0; i < stations.size(); i++) {
                             mMap.addMarker(new MarkerOptions()
@@ -98,6 +98,8 @@ public class ShuttleDetailActivity extends Activity {
 
                         }
                         mMap.addPolyline(new PolylineOptions().addAll(positions));
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(stations.get(0).getLat(), stations.get(0).getLng()), 10);
+                        mMap.moveCamera(update);
                     }
                 }
                 @Override

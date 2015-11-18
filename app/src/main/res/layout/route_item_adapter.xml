@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
-    <TextView
-        android:id="@+id/station_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="StationName" />
-    <TextView
-        android:id="@+id/station_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="StationLocation" />
-    <TextView
-        android:id="@+id/arrival_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ArrivalTime" />
-    <TextView
-        android:id="@+id/route_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="RouteName" />
-    <TextView
-        android:id="@+id/shuttle_reg_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ShuttleRegNo" />
+        <TextView
+            android:id="@+id/shuttle_reg_no"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="ShuttleRegNo" />
 
+        <TextView
+            android:id="@+id/route_name"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="RouteName"
+            android:layout_above="@+id/station_name"
+            android:layout_toRightOf="@+id/shuttle_reg_no"
+            android:layout_toEndOf="@+id/shuttle_reg_no"
+            android:layout_marginLeft="77dp"
+            android:layout_marginStart="60dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/arrival_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ArrivalTime"
+            android:layout_alignTop="@+id/station_name"
+            android:layout_alignLeft="@+id/route_name"
+            android:layout_alignStart="@+id/route_name" />
+
+        <TextView
+            android:id="@+id/station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="StationName"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/shuttle_reg_no"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/station_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="StationLocation"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/station_name"
+            android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>
