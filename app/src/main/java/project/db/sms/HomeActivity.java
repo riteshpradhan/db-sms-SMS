@@ -128,24 +128,29 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AutoCompleteTextView originText = (AutoCompleteTextView) findViewById(R.id.originInput);
                 AutoCompleteTextView destinationText = (AutoCompleteTextView) findViewById(R.id.destinationInput);
-                if (originText == null && destinationText == null) {
 
-                } else if (destinationText != null ) {
-                    if (originText != null) {
-                        // for map
-//                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+                String toastString = "Features available only in PRO version. Upgrade available at 0.99$";
+                Toast toast = Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_LONG);
+                toast.show();
 
-                        // soruc and destination for listing
-                        stationRouteShuttle((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
-                    } else {
-//                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
-                        //nearest and destination
-//                        stationRouteShuttle( 4, (int) hashMap.get(destinationText.getText().toString()));
-                    }
-                }
-
-                // if sour and des
-              showStations();
+//                if (originText == null && destinationText == null) {
+//
+//                } else if (destinationText != null ) {
+//                    if (originText != null) {
+//                        // for map
+////                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+//
+//                        // soruc and destination for listing
+//                        stationRouteShuttle((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+//                    } else {
+////                        plotOrigDestRoute((int) hashMap.get(originText.getText().toString()), (int) hashMap.get(destinationText.getText().toString()));
+//                        //nearest and destination
+////                        stationRouteShuttle( 4, (int) hashMap.get(destinationText.getText().toString()));
+//                    }
+//                }
+//
+//                // if sour and des
+//              showStations();
             }
         });
 
