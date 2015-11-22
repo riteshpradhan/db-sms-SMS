@@ -8,6 +8,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,14 +37,19 @@ public class AllRoutesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_routes);
 
-        MapFragment mFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.allRoutesMap);
-        mMap = mFrag.getMap();
-
         restClient = new RestClient();
         restClient.setRestApiService();
         restApiService = restClient.getRestApiService();
 
-        plotAllRoutes();
+        MapFragment mFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.allRoutesMap);
+        mFrag.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                plotAllRoutes();
+            }
+        });
+//        plotAllRoutes();
     }
 
 
@@ -62,7 +68,8 @@ public class AllRoutesActivity extends AppCompatActivity {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()))
                                         .title(routesStations.get(r).getStations().get(i).getName())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
                                 positions.add(i, new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()));
 
                             }

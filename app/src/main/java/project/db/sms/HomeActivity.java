@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -78,31 +79,43 @@ public class HomeActivity extends AppCompatActivity {
         restApiService = restClient.getRestApiService();
 
 
-
-        isMapReady = initMap();
-        if (isMapReady){
-            // Camera position needs to be initialized here
-
-            //CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(34.718166, -86.661352), 8);
-            //gMap.addMarker(new MarkerOptions().position(new LatLng(30.718166, -86.661352)).title("Default"));
-            //gMap.moveCamera(update);
-            try {
+        MapFragment mFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mFrag.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                gMap = googleMap;
                 showCurrentLocation();
                 showStations();
-                showShuttleListView();
-            } catch (Exception e) {
-                Log.d("Log", "Caught with exception" + e.toString());
             }
+        });
 
-            // Input fields autocomplete. Move this somewhere else later
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_dropdown_item_1line, stationNameList);
-            originInput = (AutoCompleteTextView) findViewById(R.id.originInput);
-            destInput = (AutoCompleteTextView) findViewById(R.id.destinationInput);
-            originInput.setAdapter(adapter);
-            originInput.setThreshold(1);
-            destInput.setAdapter(adapter);
-            destInput.setThreshold(1);
-        }
+        // Input fields autocomplete. Move this somewhere else later
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_dropdown_item_1line, stationNameList);
+        originInput = (AutoCompleteTextView) findViewById(R.id.originInput);
+        destInput = (AutoCompleteTextView) findViewById(R.id.destinationInput);
+        originInput.setAdapter(adapter);
+        originInput.setThreshold(1);
+        destInput.setAdapter(adapter);
+        destInput.setThreshold(1);
+
+//        isMapReady = initMap();
+//        if (isMapReady){
+//            // Camera position needs to be initialized here
+//
+//            //CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(34.718166, -86.661352), 8);
+//            //gMap.addMarker(new MarkerOptions().position(new LatLng(30.718166, -86.661352)).title("Default"));
+//            //gMap.moveCamera(update);
+//            try {
+//                showCurrentLocation();
+//                showStations();
+////                showShuttleListView();
+//            } catch (Exception e) {
+//                Log.d("Log", "Caught with exception" + e.toString());
+//            }
+//
+//
+//        }
+
         stationRouteShuttle();
 
         //buttons intents
@@ -309,12 +322,13 @@ public class HomeActivity extends AppCompatActivity {
         Call<List<StationRouteShuttleTime>> shuttleStationDetailListCall;
         if (args.length == 0) {
             shuttleStationDetailListCall = restApiService.getDetails();
-        } else if (args.length == 1){
+        } else (args.length == 1){
             shuttleStationDetailListCall = restApiService.getDetail(args[0]);
-        } else {
-            shuttleStationDetailListCall = restApiService.getDetail(args[0], args[1]);
-            Log.d("LOGD: ", "Double stations");
         }
+//        else {
+//            shuttleStationDetailListCall = restApiService.getDetail(args[0], args[1]);
+//            Log.d("LOGD: ", "Double stations");
+//        }
 
         shuttleStationDetailListCall.enqueue(new Callback<List<StationRouteShuttleTime>>() {
             @Override

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,8 +53,7 @@ public class ShuttleDetailActivity extends Activity {
         restClient.setRestApiService();
         restApiService = restClient.getRestApiService();
 
-        MapFragment mFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.shuttleDetailMap);
-        mMap = mFrag.getMap();
+
 
         stationName = getIntent().getStringExtra("stationName");
         shuttleRegNo = getIntent().getStringExtra("shuttleRegNo");
@@ -61,8 +61,16 @@ public class ShuttleDetailActivity extends Activity {
         routeName = getIntent().getStringExtra("routeName");
         routeID = getIntent().getIntExtra("routeID", 0);
 
+        MapFragment mFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.shuttleDetailMap);
+        mFrag.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mMap = googleMap;
+                plotRoute(routeID);
+            }
+        });
 
-        plotRoute(routeID);
+//        plotRoute(routeID);
 
 
         TextView stationLabel = (TextView) findViewById(R.id.Station_Name);
@@ -81,6 +89,7 @@ public class ShuttleDetailActivity extends Activity {
     }
     public void plotAllRoutes() {
         if (restApiService != null) {
+
             final List<LatLng> positions = new ArrayList<LatLng>();
             Call<List<RouteWithStation>> stationListCall = restApiService.getRoutesStations();
             stationListCall.enqueue(new Callback<List<RouteWithStation>>() {
@@ -94,7 +103,9 @@ public class ShuttleDetailActivity extends Activity {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()))
                                         .title(routesStations.get(r).getStations().get(i).getName())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
+//                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor()))
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                                        );
                                 positions.add(i, new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()));
 
                             }
@@ -115,7 +126,10 @@ public class ShuttleDetailActivity extends Activity {
 
         }
     }
+
     public void plotRoute(int routeID) {
+
+
         if (restApiService != null) {
             final List<LatLng> positions = new ArrayList<LatLng>();
             Call<RouteWithStation> stationListCall = restApiService.getRouteStations(routeID);
@@ -123,13 +137,15 @@ public class ShuttleDetailActivity extends Activity {
                 @Override
                 public void onResponse(Response<RouteWithStation> response, Retrofit retrofit) {
                     if (response.isSuccess()) {
+
                         RouteWithStation routeStations = response.body();
                         List<Station> stations = routeStations.getStations();
                         for (int i = 0; i < stations.size(); i++) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
                                     .title(stations.get(i).getName())
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                    );
                             positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
 
                         }
