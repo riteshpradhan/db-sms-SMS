@@ -193,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 //currMarker.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
                 //gMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15);
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13);
                 gMap.moveCamera(update);
 
             }
@@ -232,7 +232,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getCurrentPosition() {
-        locationManager.requestLocationUpdates("gps", 500, 0, locationListener);
+        locationManager.requestLocationUpdates("gps", 60000, 0, locationListener);
     }
 
     public void showShuttleListView() {
@@ -298,7 +298,7 @@ public class HomeActivity extends AppCompatActivity {
                         for (int i = 0; i < stations.size(); i++) {
                             gMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
-                                    .title(stations.get(i).getName())
+                                    .title(stations.get(i).getName().toString())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                             );
                             //positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
@@ -322,7 +322,7 @@ public class HomeActivity extends AppCompatActivity {
         Call<List<StationRouteShuttleTime>> shuttleStationDetailListCall;
         if (args.length == 0) {
             shuttleStationDetailListCall = restApiService.getDetails();
-        } else (args.length == 1){
+        } else {
             shuttleStationDetailListCall = restApiService.getDetail(args[0]);
         }
 //        else {

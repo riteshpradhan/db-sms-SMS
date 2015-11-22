@@ -143,14 +143,14 @@ public class ShuttleDetailActivity extends Activity {
                         for (int i = 0; i < stations.size(); i++) {
                             mMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(stations.get(i).getLat(), stations.get(i).getLng()))
-                                    .title(stations.get(i).getName())
-//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                    .title(stations.get(i).getName().toString())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(routeStations.getHueColor()))
                                     );
                             positions.add(i, new LatLng(stations.get(i).getLat(), stations.get(i).getLng()));
 
                         }
                         mMap.addPolyline(new PolylineOptions().addAll(positions));
-                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(stations.get(0).getLat(), stations.get(0).getLng()), 10);
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(stations.get(0).getLat(), stations.get(0).getLng()), 13);
                         mMap.moveCamera(update);
                     }
                 }

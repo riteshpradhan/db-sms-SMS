@@ -1,5 +1,6 @@
 package project.db.sms;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +17,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 import project.db.sms.apiservices.RestClient;
 import project.db.sms.apiservices.interfaceservices.RestApiInterface;
 import project.db.sms.apiservices.model.RouteWithStation;
-import project.db.sms.apiservices.model.Station;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -49,7 +49,6 @@ public class AllRoutesActivity extends AppCompatActivity {
                 plotAllRoutes();
             }
         });
-//        plotAllRoutes();
     }
 
 
@@ -64,20 +63,21 @@ public class AllRoutesActivity extends AppCompatActivity {
                         List<RouteWithStation> routesStations = response.body();
 
                         for (int r = 0; r < routesStations.size(); r++) {
+                            positions.clear();
                             for (int i = 0; i < routesStations.get(r).getStations().size(); i++) {
                                 mMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()))
                                         .title(routesStations.get(r).getStations().get(i).getName())
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
+                                        .icon(BitmapDescriptorFactory.defaultMarker(routesStations.get(r).getHueColor())));
                                 positions.add(i, new LatLng(routesStations.get(r).getStations().get(i).getLat(), routesStations.get(r).getStations().get(i).getLng()));
 
                             }
-                            mMap.addPolyline(new PolylineOptions().addAll(positions).color(routesStations.get(r).getHueColor()));
+                            Random rnd = new Random();
+                            mMap.addPolyline(new PolylineOptions().addAll(positions).color(Color.rgb(rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))));
                         }
                         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(
                                 new LatLng(routesStations.get(0).getStations().get(0).getLat()
-                                        , routesStations.get(0).getStations().get(0).getLng()), 10);
+                                        , routesStations.get(0).getStations().get(0).getLng()), 15);
                         mMap.moveCamera(update);
                     }
                 }
